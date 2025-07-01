@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content='width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, user-scalable=no, shrink-to-fit=yes'>
+    <meta name="viewport" content='width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=yes'>
     <title>Unity WebGL Player | ImagineAR</title>
     <link rel="stylesheet" href="TemplateData/style.css">
     <style>
@@ -318,7 +318,7 @@
             const ctx = canvas.getContext('2d');
             // Vẽ video (lớp nền)
             const video = document.getElementById('webcam-video');
-            ctx.drawImage(video, 0, 0, width, height);
+          //  ctx.drawImage(video, 0, 0, width, height);
             // Vẽ Unity canvas (lớp AR)
             const unityCanvas = document.getElementById('unity-canvas');
             ctx.drawImage(unityCanvas, 0, 0, width, height);
