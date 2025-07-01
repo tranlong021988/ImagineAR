@@ -308,8 +308,8 @@
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
             // Thiết lập kích thước
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
+            canvas.width = video.width;
+            canvas.height = video.height;
             // Vẽ video (lớp nền)
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             // Vẽ Unity canvas (lớp AR)
