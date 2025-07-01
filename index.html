@@ -93,7 +93,7 @@
         <p id="errorText" style="text-align: center; width:60vw; color:white"></p>
     </div>
     <div id="unity-container" class="unity-mobile">
-        <canvas id="unity-canvas" style="width: 100%; height: 100%; background: #0000; z-index: -99;object-fit: cover;"></canvas>
+        <canvas id="unity-canvas" style="width: 100%; height: 100%; background: #0000; z-index: -99;object-fit: cover" crossorigin="anonymous"></canvas>
         <div id="unity-loading-bar">
             <div id="unity-logo"></div>
             <div id="unity-progress-bar-empty">
@@ -144,7 +144,7 @@
                     companyName: "NinetyEight",
                     productName: "ImagineAR",
                     productVersion: "0.1.0",
-                    //webglContextAttributes: { "preserveDrawingBuffer": true },
+                    webglContextAttributes: { "preserveDrawingBuffer": true },
                     // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
                     // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
                     },
