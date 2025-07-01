@@ -307,8 +307,8 @@
         function captureScreenshot() {
             // Vẽ video (lớp nền)
             const video = document.getElementById('webcam-video');
-            const width = video.width;
-            const height = video.height;
+            const width = video.videoWidth;
+            const height = video.videoHeight;
             // Tạo canvas ảo
             const canvas = document.createElement('canvas');
             canvas.width = width;
