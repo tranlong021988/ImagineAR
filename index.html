@@ -2,11 +2,10 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content='width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=yes'>
+    <meta name="viewport" content='width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, user-scalable=no, shrink-to-fit=yes'>
     <title>Unity WebGL Player | ImagineAR</title>
     <link rel="stylesheet" href="TemplateData/style.css">
     <style>
-        
         html{
             height: -webkit-fill-available;
         }
@@ -17,7 +16,6 @@
             min-height: -webkit-fill-available;
             width: 100vw;
             overflow: hidden;
-            object-fit: cover;
         }
         .ctaDiv {
             display: flex;
@@ -32,14 +30,13 @@
             background: #fffa;
             z-index: 99;
         }
-          #preview {
+        #preview {
             position: absolute;
             right: 10px;
             top: 10px;
             width: 200px;
             border: 2px solid white;
             box-shadow: 0 0 10px rgba(0,0,0,0.5);
-            object-fit: cover;
         }
     </style>
 </head>
@@ -66,9 +63,9 @@
 		<imagetarget id='Skull' src='targets/Skull.png'></imagetarget>
 		<imagetarget id='Sword' src='targets/Sword.png'></imagetarget>
 
-    <video id="webcam-video" muted autoplay playsinline style="width:1px;position:absolute;"></video>
+    <video id="webcam-video" muted autoplay playsinline style="width:1px;position:absolute"></video>
     <!-- <video id="webcam-video" muted autoplay playsinline style="width:100%; height:100%; object-fit:cover; position:absolute"></video> -->
-    <canvas id="video-canvas" style="width:100%; height:100%; position:absolute"></canvas>
+    <canvas id="video-canvas" style="width:100%; height:100%; object-fit:cover; position:absolute"></canvas>
     <div id="startARDiv" class="ctaDiv">
         <select id="chooseCamSel" style="display: none;" onchange="SelectCam()"></select>
         <p style="text-align: center; width:60vw;">This augmented reality experience requires access to your device's camera</p>
@@ -93,17 +90,15 @@
         <p id="errorText" style="text-align: center; width:60vw; color:white"></p>
     </div>
     <div id="unity-container" class="unity-mobile">
-        <canvas id="unity-canvas" style="width: 100%; height: 100%; background: #0000; z-index: -99" crossorigin="anonymous"></canvas>
+        <canvas id="unity-canvas" style="width: 100%; height: 100%; background: #0000; z-index: -99"></canvas>
         <div id="unity-loading-bar">
             <div id="unity-logo"></div>
             <div id="unity-progress-bar-empty">
                 <div id="unity-progress-bar-full"></div>
             </div>
         </div>
-       <!-- <canvas id="video-canvas"></canvas> -->
+        <!-- <canvas id="video-canvas"></canvas> -->
     </div>
-    
-    
     <script src="arcamera.js" type="text/javascript"></script>
     <script src="itracker.js" type="text/javascript"></script>
     <script src="Build/ImagineAR.loader.js"></script>
@@ -295,35 +290,52 @@
             }
             
     </script>
-       <!-- Nút chụp ảnh -->
+    
+          <!-- Nút chụp ảnh -->
     <button id="capture-btn" style="position: absolute; bottom: 20px; left: 20px; padding: 10px 20px; z-index: 10;">
         Chụp ảnh
     </button>
-      <!-- Ảnh preview -->
+    <!-- Ảnh preview -->
     <img id="preview" alt="AR Preview">
     <script>
-         // Hàm chụp ảnh
-        // Hàm chụp toàn màn hình
+        // Khởi tạo camera
+       
+        // Hàm chụp ảnh
         function captureScreenshot() {
-            // Vẽ video (lớp nền)
-            const video = document.getElementById('webcam-video');
-            const width = video.videoWidth;
-            const height = video.videoHeight;
+            const video = document.getElementById('video-canvas');
+            const unityCanvas = document.getElementById('unity-canvas');
             // Tạo canvas ảo
             const canvas = document.createElement('canvas');
-            canvas.width = width;
-            canvas.height = height;
             const ctx = canvas.getContext('2d');
-            
-            ctx.drawImage(video, 0, 0, width, height);
+            // Thiết lập kích thước
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            // Vẽ video (lớp nền)
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             // Vẽ Unity canvas (lớp AR)
-            const unityCanvas = document.getElementById('unity-canvas');
-            ctx.drawImage(unityCanvas, 0, 0, width, height);
-            // Hiển thị vào thẻ img
-            document.getElementById('preview').src = canvas.toDataURL('image/jpeg');
+            if (unityCanvas) {
+                ctx.drawImage(
+                    unityCanvas,
+                    0, 0, unityCanvas.width, unityCanvas.height,
+                    0, 0, canvas.width, canvas.height
+                );
+            }
+            // Trả về URL ảnh
+            return canvas.toDataURL('image/png');
         }
-        // Gắn sự kiện click cho nút
-        document.getElementById('capture-btn').addEventListener('click', captureScreenshot);
+        // Xử lý click nút
+        document.getElementById('capture-btn').addEventListener('click', () => {
+            try {
+                const imgData = captureScreenshot();
+                document.getElementById('preview').src = imgData;
+            } catch (error) {
+                console.error('Lỗi khi chụp ảnh:', error);
+                alert('Chụp ảnh thất bại!');
+            }
+        });
+        // Khởi động camera khi trang tải xong
+        window.addEventListener('DOMContentLoaded', initCamera);
+    
     </script>
 </body>
 </html>
