@@ -305,15 +305,16 @@
          // Hàm chụp ảnh
         // Hàm chụp toàn màn hình
         function captureScreenshot() {
-            const width = document.innerWidth;
-            const height = document.innerHeight;
+            // Vẽ video (lớp nền)
+            const video = document.getElementById('webcam-video');
+            const width = video.width;
+            const height = video.height;
             // Tạo canvas ảo
             const canvas = document.createElement('canvas');
             canvas.width = width;
             canvas.height = height;
             const ctx = canvas.getContext('2d');
-            // Vẽ video (lớp nền)
-            const video = document.getElementById('webcam-video');
+            
             ctx.drawImage(video, 0, 0, width, height);
             // Vẽ Unity canvas (lớp AR)
             const unityCanvas = document.getElementById('unity-canvas');
